@@ -414,11 +414,11 @@ namespace objl
 			char* point = localeconv()->decimal_point;
 			if (std::string(".") != point)
 			{
-				unsigned long point_it = str.find(".");
 				std::string temp_str = str;
-
-				temp_str.replace(point_it, point_it + 1, point);
-
+				if (size_t point_it = str.find(".") != std::string::npos)
+				{
+					temp_str.replace(point_it, point_it + 1, point);
+				}
 				return std::stof(temp_str);
 			}
 			else
@@ -1144,7 +1144,7 @@ namespace objl
 				// Illumination
 				if (algorithm::firstToken(curline) == "illum")
 				{
-					tempMaterial.illum = algorithm::li_stof(algorithm::tail(curline));
+					tempMaterial.illum = std::stoi(algorithm::tail(curline));
 				}
 				// Ambient Texture Map
 				if (algorithm::firstToken(curline) == "map_Ka")
