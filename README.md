@@ -2,6 +2,15 @@
 
 The quick to use single header OBJ loader
 
+## forked repository
+
+Because the origin repository of Bly7 seems to be dead, I forked it and integrated my changes.
+This fork also include the open pull requests from the origin repository:
+- Simply added inline keywords to all functions in math and algorithm namespace in accordance with issue #17, to prevent compiler errors.
+- Avoid locale sensitive std::stof function
+- Avoid “stoi: no conversion” when Windows newlines are present
+
+
 ## Quick Description
 
 OBJ Loader is a simple, header only, .obj model file loader that will take in a path to a file, load it into the Loader class object, then allow you to get the data from each mesh loaded. This will load each mesh within the model with the corresponding data such as vertices, indices, and material. Plus a large array of vertices, indices and materials which you can do whatever you want with.
