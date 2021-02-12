@@ -18,7 +18,7 @@
 #include <math.h>
 
 // Print progress to console while loading (large models)
-#define OBJL_CONSOLE_OUTPUT
+//#define OBJL_CONSOLE_OUTPUT // define in project setup if needed
 
 // Namespace: OBJL
 //
@@ -150,7 +150,7 @@ namespace objl
 	{
 		Material()
 		{
-			name;
+			//name; // unsed
 			Ns = 0.0f;
 			Ni = 0.0f;
 			d = 0.0f;
@@ -647,9 +647,10 @@ namespace objl
 
 					std::string pathtomat = "";
 
-					if (temp.size() != 1)
+					size_t tmpsize = temp.size();
+					if (tmpsize != 1)
 					{
-						for (int i = 0; i < temp.size() - 1; i++)
+						for (size_t i = 0; i < tmpsize - 1; i++)
 						{
 							pathtomat += temp[i] + "/";
 						}
@@ -686,13 +687,13 @@ namespace objl
 			file.close();
 
 			// Set Materials for each Mesh
-			for (int i = 0; i < MeshMatNames.size(); i++)
+			for (size_t i = 0; i < MeshMatNames.size(); i++)
 			{
 				std::string matname = MeshMatNames[i];
 
 				// Find corresponding material name in loaded materials
 				// when found copy material variables into mesh material
-				for (int j = 0; j < LoadedMaterials.size(); j++)
+				for (size_t j = 0; j < LoadedMaterials.size(); j++)
 				{
 					if (LoadedMaterials[j].name == matname)
 					{
@@ -740,7 +741,7 @@ namespace objl
 			for (int i = 0; i < int(sface.size()); i++)
 			{
 				// See What type the vertex is.
-				int vtype;
+				int vtype = 0;
 
 				algorithm::split(sface[i], svert, "/");
 
@@ -777,42 +778,42 @@ namespace objl
 				// Calculate and store the vertex
 				switch (vtype)
 				{
-				case 1: // P
-				{
-					vVert.Position = algorithm::getElement(iPositions, svert[0]);
-					vVert.TextureCoordinate = Vector2(0, 0);
-					noNormal = true;
-					oVerts.push_back(vVert);
-					break;
-				}
-				case 2: // P/T
-				{
-					vVert.Position = algorithm::getElement(iPositions, svert[0]);
-					vVert.TextureCoordinate = algorithm::getElement(iTCoords, svert[1]);
-					noNormal = true;
-					oVerts.push_back(vVert);
-					break;
-				}
-				case 3: // P//N
-				{
-					vVert.Position = algorithm::getElement(iPositions, svert[0]);
-					vVert.TextureCoordinate = Vector2(0, 0);
-					vVert.Normal = algorithm::getElement(iNormals, svert[2]);
-					oVerts.push_back(vVert);
-					break;
-				}
-				case 4: // P/T/N
-				{
-					vVert.Position = algorithm::getElement(iPositions, svert[0]);
-					vVert.TextureCoordinate = algorithm::getElement(iTCoords, svert[1]);
-					vVert.Normal = algorithm::getElement(iNormals, svert[2]);
-					oVerts.push_back(vVert);
-					break;
-				}
-				default:
-				{
-					break;
-				}
+					case 1: // P
+					{
+						vVert.Position = algorithm::getElement(iPositions, svert[0]);
+						vVert.TextureCoordinate = Vector2(0, 0);
+						noNormal = true;
+						oVerts.push_back(vVert);
+						break;
+					}
+					case 2: // P/T
+					{
+						vVert.Position = algorithm::getElement(iPositions, svert[0]);
+						vVert.TextureCoordinate = algorithm::getElement(iTCoords, svert[1]);
+						noNormal = true;
+						oVerts.push_back(vVert);
+						break;
+					}
+					case 3: // P//N
+					{
+						vVert.Position = algorithm::getElement(iPositions, svert[0]);
+						vVert.TextureCoordinate = Vector2(0, 0);
+						vVert.Normal = algorithm::getElement(iNormals, svert[2]);
+						oVerts.push_back(vVert);
+						break;
+					}
+					case 4: // P/T/N
+					{
+						vVert.Position = algorithm::getElement(iPositions, svert[0]);
+						vVert.TextureCoordinate = algorithm::getElement(iTCoords, svert[1]);
+						vVert.Normal = algorithm::getElement(iNormals, svert[2]);
+						oVerts.push_back(vVert);
+						break;
+					}
+					default:
+					{
+						break;
+					}
 				}
 			}
 
@@ -860,7 +861,7 @@ namespace objl
 			while (true)
 			{
 				// For every vertex
-				for (int i = 0; i < int(tVerts.size()); i++)
+				for (size_t i = 0; i < tVerts.size(); i++)
 				{
 					// pPrev = the previous vertex in the list
 					Vertex pPrev;
@@ -946,7 +947,7 @@ namespace objl
 					}
 
 					// If Vertex is not an interior vertex
-					float angle = math::AngleBetweenV3(pPrev.Position - pCur.Position, pNext.Position - pCur.Position) * (180 / 3.14159265359);
+					float angle = math::AngleBetweenV3(pPrev.Position - pCur.Position, pNext.Position - pCur.Position) * (180.0f / 3.14159265359f);
 					if (angle <= 0 && angle >= 180)
 						continue;
 
