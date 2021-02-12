@@ -466,6 +466,11 @@ namespace objl
 			std::string curline;
 			while (std::getline(file, curline))
 			{
+				// remove carriage-return from files generated on windows
+				if ((curline.size() > 0) && (curline[curline.size() - 1] == '\r')) {
+					curline.resize(curline.size() - 1); // alternatively use .erase
+				}
+
 				#ifdef OBJL_CONSOLE_OUTPUT
 				if ((outputIndicator = ((outputIndicator + 1) % outputEveryNth)) == 1)
 				{
